@@ -22,32 +22,7 @@ Seed nodes act as bootstrap registries. They do not participate in the P2P netwo
 
 Peer nodes are the actual participants in the network. Each peer connects to a subset of seeds, discovers other peers, forms connections using a preferential attachment algorithm, exchanges messages via gossip flooding, and continuously monitors its neighbours with heartbeat pings. A peer has a 30% chance of dying at a random time between 30 and 60 seconds after joining — simulating real-world node churn.
 
-Architecture
-                        ┌─────────────────────┐
-                        │      config.txt      │
-                        │  (seed ip:port list) │
-                        └────────┬─────────────┘
-                                 │ read by
-                 ┌───────────────┼───────────────┐
-                 ▼               ▼               ▼
-           ┌─────────┐    ┌─────────┐    ┌─────────┐
-           │  Seed 1  │    │  Seed 2  │    │  Seed 3  │
-           │:5000     │    │:5001     │    │:5002     │
-           └────┬─────┘    └────┬─────┘    └────┬─────┘
-                │               │               │
-                └───────────────┼───────────────┘
-                                │
-                  peers connect to (n/2)+1 seeds
-                                │
-          ┌─────────────────────┼─────────────────────┐
-          ▼                     ▼                     ▼
-    ┌──────────┐         ┌──────────┐         ┌──────────┐
-    │  Peer A  │◄───────►│  Peer B  │◄───────►│  Peer C  │
-    │  :6001   │         │  :6002   │         │  :6003   │
-    └──────────┘         └──────────┘         └──────────┘
-          ▲                                         │
-          └─────────────────────────────────────────┘
-                    (preferential attachment graph)
+
 Seed nodes and peer nodes run as separate processes. Seed processes are started first via main.py. Peer processes are then started individually via new_peer.py, one per terminal.
 
 How It Works
